@@ -31,9 +31,17 @@ const MessageItem = ({ msg, onMediaClick }) => {
         </div>
       );
     } else if (msg.fileType.startsWith('video/')) {
+      // Show a non-interactive video thumbnail; actual playback happens in the preview modal
       mediaElement = (
         <div style={{ cursor: 'pointer', display: 'inline-block' }} onClick={() => onMediaClick && onMediaClick(msg, mediaSrc)}>
-          <video src={mediaSrc} controls style={{ maxWidth: 220, maxHeight: 180, borderRadius: 8, marginTop: 8 }} />
+          <video
+            src={mediaSrc}
+            // No controls and no autoplay in the bubble
+            style={{ maxWidth: 220, maxHeight: 180, borderRadius: 8, marginTop: 8, pointerEvents: 'none' }}
+            preload="metadata"
+            playsInline
+            muted
+          />
         </div>
       );
     } else if (msg.fileType.startsWith('audio/')) {

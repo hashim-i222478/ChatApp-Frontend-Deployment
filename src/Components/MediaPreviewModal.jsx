@@ -47,11 +47,10 @@ const MediaPreviewModal = ({ mediaPreview, onClose }) => {
           />
         )}
         
-        {mediaPreview.msg.fileType.startsWith('video/') && (
+    {mediaPreview.msg.fileType.startsWith('video/') && (
           <video 
-            src={mediaPreview.src} 
-            controls 
-            autoPlay 
+      src={mediaPreview.src} 
+      controls 
             className="media-modal-video" 
           />
         )}
