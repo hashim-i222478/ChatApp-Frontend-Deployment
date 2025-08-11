@@ -31,7 +31,7 @@ const Home = () => {
       const token = localStorage.getItem('token');
       if (token && userId) {
         try {
-          const res = await fetch(`http://localhost:5001/api/users/profile-pic/${userId}`, {
+          const res = await fetch(`https://chatapp-backend-production-abb8.up.railway.app/api/users/profile-pic/${userId}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           if (res.ok) {

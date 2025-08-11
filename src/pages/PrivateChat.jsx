@@ -65,7 +65,7 @@ const PrivateChat = () => {
     const fetchProfilePic = async () => {
       try {
         const token = localStorage.getItem('token');
-        const picRes = await fetch(`http://localhost:5001/api/users/profile-pic/${targetUserId}`, {
+        const picRes = await fetch(`https://chatapp-backend-production-abb8.up.railway.app/api/users/profile-pic/${targetUserId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (picRes.ok) {
@@ -411,7 +411,10 @@ const PrivateChat = () => {
     if (isSelfChat) {
       // Save as personal note locally and do not send over WebSocket
       const now = new Date();
-      const localTime = now.toLocaleTimeString();
+      const localTime = now.toLocaleTimeString('en-US', { 
+        timeZone: 'Asia/Karachi',
+        hour12: true 
+      });
       const msgs = JSON.parse(localStorage.getItem(chatKey) || '[]');
       msgs.push({
         fromUserId: myUserId,
