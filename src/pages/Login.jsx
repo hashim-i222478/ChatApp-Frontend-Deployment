@@ -69,7 +69,7 @@ const Login = () => {
           </div>
           {error && <div className="error-message">{error}</div>}
           
-          <form onSubmit={handleSubmit} className="login-form">
+          <form onSubmit={handleSubmit} className="login-form" autoComplete="off">
             <div className="form-group">
               <label htmlFor="userId" className="form-label">User ID</label>
               <input
@@ -78,6 +78,10 @@ const Login = () => {
                 name="userId"
                 value={formData.userId}
                 onChange={handleChange}
+                autoComplete="off"
+                autoCapitalize="none"
+                spellCheck={false}
+                inputMode="numeric"
                 required
                 pattern="\d{9}"
                 placeholder="Enter your 9-digit User ID"
@@ -94,6 +98,8 @@ const Login = () => {
                 name="pin"
                 value={formData.pin}
                 onChange={handleChange}
+                autoComplete="new-password"
+                inputMode="numeric"
                 required
                 pattern="\d{4}"
                 placeholder="Enter your 4-digit PIN"

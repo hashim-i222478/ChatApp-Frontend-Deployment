@@ -301,7 +301,10 @@ const RecentChats = () => {
 
   // LoadingState component for loading state
   const LoadingState = () => (
-    <li className="loading-chats">Loading...</li>
+    <li className="loading-chats" aria-live="polite">
+      <span role="img" aria-label="loading" style={{ marginRight: 8 }}>⏳</span>
+      Chats are being loaded...
+    </li>
   );
 
   return (

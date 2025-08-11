@@ -57,13 +57,13 @@ const MessageItem = ({ msg, onMediaClick }) => {
       mediaElement = (
         <a 
           href={mediaSrc} 
-          download={msg.filename} 
           target="_blank" 
           rel="noopener noreferrer" 
           className={`file-link ${msg.from === 'me' ? 'file-link-self' : ''}`}
+          title={msg.filename || 'Open file'}
         >
           <FileIcon style={{ marginRight: 8, fontSize: '1.2em' }} />
-          <span className="file-name">{msg.filename || 'Download file'}</span>
+          <span className="file-name">{msg.filename || 'Open file'}</span>
         </a>
       );
     }
