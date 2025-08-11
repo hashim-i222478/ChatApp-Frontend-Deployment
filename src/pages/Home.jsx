@@ -90,23 +90,36 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (chatUserId.trim()) {
-      // Fetch username from backend
-      const token = localStorage.getItem('token');
-      try {
-  const res = await fetch(`https://chatapp-backend-production-abb8.up.railway.app/api/users/username/${chatUserId}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        let username = 'User';
-        if (res.ok) {
-          const data = await res.json();
-          username = data.username || 'User';
-        }
-        navigate(`/private-chat/${chatUserId}`, { state: { username, userId: chatUserId } });
-      } catch {
-        navigate(`/private-chat/${chatUserId}`, { state: { username: 'User', userId: chatUserId } });
+    const id = chatUserId.trim();
+    if (!id) return;
+    // Basic format validation: must be 9 digits
+    if (!/^\d{9}$/.test(id)) {
+      showPopup('Please enter a valid 9-digit User ID.', 'error');
+      return;
+    }
+
+    // Verify user exists via backend before navigating
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch(`https://chatapp-backend-production-abb8.up.railway.app/api/users/username/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (res.status === 404) {
+        showPopup('User ID not found. Please check and try again.', 'error');
+        return;
       }
+      if (!res.ok) {
+        showPopup('Could not verify user at this time. Please try again.', 'error');
+        return;
+      }
+
+      const data = await res.json();
+      const resolvedUsername = data.username || 'User';
+      navigate(`/private-chat/${id}`, { state: { username: resolvedUsername, userId: id } });
       handleCloseModal();
+    } catch (err) {
+      showPopup('Network error verifying user. Please try again.', 'error');
     }
   };
 
