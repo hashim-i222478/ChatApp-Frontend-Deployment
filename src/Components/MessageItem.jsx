@@ -53,12 +53,41 @@ const MessageItem = ({ msg, onMediaClick }) => {
         else if (msg.fileType.includes('audio')) FileIcon = FaFileAudio;
         else if (msg.fileType.includes('video')) FileIcon = FaFileVideo;
       }
-      
+
+      // If the source is a data URL, open via a Blob URL to improve cross-browser rendering (e.g., PDFs)
+      const isDataUrl = typeof mediaSrc === 'string' && mediaSrc.startsWith('data:');
+
+      const handleOpenInNewTab = (e) => {
+        if (!isDataUrl) return; // Let the browser handle normal URLs
+        try {
+          e.preventDefault();
+          // Convert data URL (base64) to Blob
+          const [header, base64Data] = mediaSrc.split(',');
+          const mimeMatch = header.match(/^data:([^;]+);base64$/i);
+          const mimeType = (mimeMatch && mimeMatch[1]) || msg.fileType || 'application/octet-stream';
+          const byteCharacters = atob(base64Data);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: mimeType });
+          const url = URL.createObjectURL(blob);
+          // Open in a new tab
+          window.open(url, '_blank', 'noopener,noreferrer');
+          // Revoke after a delay to allow the tab to load
+          setTimeout(() => URL.revokeObjectURL(url), 60_000);
+        } catch (err) {
+          console.error('Failed to open data URL in new tab:', err);
+        }
+      };
+
       mediaElement = (
-        <a 
-          href={mediaSrc} 
-          target="_blank" 
-          rel="noopener noreferrer" 
+        <a
+          href={mediaSrc}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={handleOpenInNewTab}
           className={`file-link ${msg.from === 'me' ? 'file-link-self' : ''}`}
           title={msg.filename || 'Open file'}
         >
