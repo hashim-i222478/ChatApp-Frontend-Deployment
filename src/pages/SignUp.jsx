@@ -134,6 +134,15 @@ const SignUp = () => {
     }
   };
 
+  // Sanitize value on input (final fallback across browsers)
+  const handleDigitInput = (e) => {
+    const { name, value } = e.target;
+    const digits = value.replace(/\D/g, '').slice(0, 4);
+    if (value !== digits) {
+      setFormData(prev => ({ ...prev, [name]: digits }));
+    }
+  };
+
   const handleProfilePicChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -218,7 +227,7 @@ const SignUp = () => {
           </div>
           {error && <div className="error-message">{error}</div>}
           
-          <form onSubmit={handleSubmit} className="signup-form">
+          <form onSubmit={handleSubmit} className="signup-form" autoComplete="off">
             <div className="form-group">
               <div className="profile-picture-section">
               <label className="profile-picture-label">Profile Picture:</label>
@@ -253,6 +262,9 @@ const SignUp = () => {
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
+                autoComplete="off"
+                autoCapitalize="none"
+                spellCheck={false}
                 required
                 placeholder="Choose a username"
                 className="form-input"
@@ -269,8 +281,11 @@ const SignUp = () => {
                 onKeyDown={handleDigitKeyDown}
                 onBeforeInput={handleDigitBeforeInput}
                 onPaste={handleDigitPaste}
+                onInput={handleDigitInput}
+                autoComplete="new-password"
+                inputMode="numeric"
                 required
-                pattern="\d{4}"
+                pattern="[0-9]{4}"
                 placeholder="Create a 4-digit PIN"
                 maxLength={4}
                 className="form-input"
@@ -287,8 +302,11 @@ const SignUp = () => {
                 onKeyDown={handleDigitKeyDown}
                 onBeforeInput={handleDigitBeforeInput}
                 onPaste={handleDigitPaste}
+                onInput={handleDigitInput}
+                autoComplete="new-password"
+                inputMode="numeric"
                 required
-                pattern="\d{4}"
+                pattern="[0-9]{4}"
                 placeholder="Confirm your 4-digit PIN"
                 maxLength={4}
                 className="form-input"
