@@ -24,7 +24,7 @@ const UpdateProfile = () => {
         if (response.data.userId) {
           const token = localStorage.getItem('token');
           try {
-            const picRes = await fetch(`http://localhost:5001/api/users/profile-pic/${response.data.userId}`, {
+            const picRes = await fetch(`https://chatapp-backend-production-abb8.up.railway.app/api/users/profile-pic/${response.data.userId}`, {
               headers: { Authorization: `Bearer ${token}` }
             });
             if (picRes.ok) {
@@ -96,7 +96,7 @@ const UpdateProfile = () => {
         formData.append('profilePic', profilePicture);
       }
       
-      const res = await fetch('http://localhost:5001/api/users/update', {
+  const res = await fetch('https://chatapp-backend-production-abb8.up.railway.app/api/users/update', {
         method: 'PUT',
         headers: {
           // Don't set Content-Type here, it will be set automatically with boundary for multipart/form-data
@@ -160,7 +160,7 @@ const UpdateProfile = () => {
                       src={previewUrl.startsWith('data:') 
                         ? previewUrl 
                         : previewUrl.startsWith('/uploads/') 
-                          ? `http://localhost:5001${previewUrl}` 
+                          ? `https://chatapp-backend-production-abb8.up.railway.app${previewUrl}` 
                           : previewUrl} 
                       alt="Profile Preview" 
                       className="profile-preview-image" 
