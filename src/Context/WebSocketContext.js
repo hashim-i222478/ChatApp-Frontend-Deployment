@@ -109,14 +109,14 @@ export const WebSocketProvider = ({ children }) => {
           const otherUserId = message.fromUserId === myUserId ? message.toUserId : message.fromUserId;
           const chatKey = `chat_${[myUserId, otherUserId].sort().join('_')}`;
           const current = JSON.parse(localStorage.getItem(chatKey) || '[]');
-          const localTime = message.time; // Already in local time format from server
+          const localTime = message.time; // Time is already in correct local format from server
           const exists = current.some(m => m.fromUserId === message.fromUserId && m.message === message.message && m.time === localTime);
           if (!exists) {
             current.push({
               fromUserId: message.fromUserId,
               username: message.fromUsername,
               message: message.message,
-              time: localTime, // Store local time format consistently
+              time: localTime, // Store time in consistent format
               file: message.file,
               fileUrl: message.fileUrl,
               fileType: message.fileType,

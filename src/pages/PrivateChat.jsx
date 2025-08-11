@@ -411,7 +411,7 @@ const PrivateChat = () => {
     if (isSelfChat) {
       // Save as personal note locally and do not send over WebSocket
       const now = new Date();
-      const localTime = now.toLocaleString();
+      const localTime = now.toLocaleTimeString();
       const msgs = JSON.parse(localStorage.getItem(chatKey) || '[]');
       msgs.push({
         fromUserId: myUserId,
