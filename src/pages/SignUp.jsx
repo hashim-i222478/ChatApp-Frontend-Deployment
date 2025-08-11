@@ -182,10 +182,11 @@ const SignUp = () => {
 
     try {
       const { confirmPin, ...dataToSend } = formData;
-      // Remove profilePic from registration request
-      const response = await authAPI.register(dataToSend);
-      const userId = response.data.userId;
-      // If a profile picture is selected, upload it
+      // Register user
+      const registerRes = await authAPI.register(dataToSend);
+      const userId = registerRes.data.userId;
+      
+      // If a profile picture is selected, upload it (optional)
       if (profilePic) {
         const formDataPic = new FormData();
         formDataPic.append('profilePic', profilePic);
@@ -195,8 +196,21 @@ const SignUp = () => {
           body: formDataPic
         });
       }
-      setNewUserId(userId);
-      setShowModal(true);
+      
+      // Auto-login the user
+      const loginRes = await authAPI.login({ userId, pin: formData.pin });
+      const { token, username } = loginRes.data;
+      
+      // Persist auth details
+      localStorage.setItem('token', token);
+      localStorage.setItem('username', username);
+      localStorage.setItem('userId', userId);
+      
+      // Notify app to establish WebSocket connection
+      window.dispatchEvent(new CustomEvent('user-logged-in'));
+      
+      // Redirect to home
+      navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
     } finally {
