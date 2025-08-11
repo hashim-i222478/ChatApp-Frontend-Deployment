@@ -1,0 +1,636 @@
+/* Recent Chats Page Styles */
+.recent-chats-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #dbeafe 0%, #ffffff 50%, #f3e8ff 100%);
+    animation: fadeIn 0.7s ease-out;
+}
+
+.recent-chats-container {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.recent-chats-card {
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    animation: fadeIn 0.7s ease-out;
+}
+
+.recent-chats-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(90deg, #2563eb 0%, #9333ea 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.title-icon {
+    font-size: 1.5rem;
+}
+
+.recent-chats-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+/* Search bar styles */
+.search-container {
+    position: relative;
+    margin-bottom: 1.5rem;
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    border: 1.5px solid #a5b4fc;
+    border-radius: 2rem;
+    background: rgba(224, 231, 255, 0.3);
+    font-size: 0.9rem;
+    color: #1e293b;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+}
+
+.search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    color: #2563eb;
+    pointer-events: none;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+    background: rgba(224, 231, 255, 0.5);
+}
+
+.search-input::placeholder {
+    color: #7182d8;
+    font-style: italic;
+}
+
+.clear-search {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: #6366f1;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.clear-search:hover {
+    color: #ef4444;
+    size: 1.5rem;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.recent-chats-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chat-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1.5px solid #e0e7ff;
+    border-radius: 0.75rem;
+    background: #f8fafc;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.04);
+    transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+    cursor: pointer;
+}
+
+.chat-item:hover {
+   
+    background: #f1f5f9;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+}
+
+.user-avatar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.initial-circle {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: linear-gradient(135deg, #2563eb 0%, #9333ea 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+    overflow: hidden;
+}
+
+.user-info {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    margin-bottom: 0.15rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.username {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+/* Friend vs Non-Friend Name Styling */
+.username.friend-name {
+    font-style: normal;
+    color: #111827;
+}
+
+.username.non-friend-name {
+    font-style: italic;
+    color: #6b7280;
+}
+
+/* Alias and Username Styling in Recent Chats */
+.chat-alias {
+    font-weight: 600;
+    color: inherit;
+}
+
+.chat-actual-username {
+    font-weight: 400;
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-left: 0.25rem;
+}
+
+.userid {
+    font-size: 0.75rem;
+    color: #6b7280;
+    display: inline-block;
+    background: rgba(203, 202, 202, 0.4);
+    padding: 0.1rem 0.5rem;
+    border-radius: 1rem;
+    vertical-align: middle;
+}
+
+.last-message-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+}
+
+.message-text {
+    color: #8a9bf1;
+}
+
+.message-time {
+    color: #8a9bf1;
+    font-size: 0.75rem;
+}
+
+.no-message {
+    color: #8a9bf1;
+    font-style: italic;
+}
+
+.chat-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+.delete-chat-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s, transform 0.2s;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.delete-chat-btn:hover {
+    opacity: 1;
+    background-color: #fee2e2;
+    transform: scale(1.1);
+}
+
+.delete-icon {
+    font-size: 1rem;
+}
+
+.unread-count {
+    background: #6366f1;
+    color: #ffffff;
+    border-radius: 50%;
+    padding: 0.25rem 0.45rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.no-chats {
+    font-size: 0.875rem;
+    color: #6b7280;
+    text-align: center;
+    padding: 1rem;
+}
+
+.loading-chats {
+    font-size: 0.875rem;
+    color: #6b7280;
+    text-align: center;
+    padding: 1rem;
+    animation: pulse 1.5s infinite;
+}
+
+.avatar-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    background: #f3f4f6;
+    border: 2px solid #e0e7ff;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Delete Confirmation Dialog */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.delete-confirm-modal {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    animation: slideUp 0.3s ease-out;
+}
+
+.delete-confirm-modal h3 {
+    color: #111827;
+    font-size: 1.25rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.delete-confirm-modal p {
+    color: #4b5563;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+}
+
+.warning-text {
+    color: #ef4444 !important;
+    font-size: 0.8rem !important;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.cancel-button, .delete-button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancel-button {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+.cancel-button:hover {
+    background: #e5e7eb;
+}
+
+.delete-button {
+    background: #ef4444;
+    color: white;
+}
+
+.delete-button:hover {
+    background: #dc2626;
+}
+
+/* Success Toast */
+.success-toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #10b981;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    animation: fadeInUp 0.3s ease-out, fadeOutDown 0.3s ease-in 2.7s forwards;
+}
+
+.success-icon {
+    font-weight: bold;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes fadeOutDown {
+    from {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .recent-chats-container {
+        padding: 1.5rem 1rem;
+    }
+
+    .recent-chats-title {
+        font-size: 1.75rem;
+    }
+
+    .recent-chats-subtitle {
+        font-size: 0.8125rem;
+    }
+
+    .search-container {
+        max-width: 85%;
+    }
+
+    .search-input {
+        padding: 0.65rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .chat-item {
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .recent-chats-container {
+        padding: 0.75rem 0.25rem;
+    }
+
+    .recent-chats-title {
+        font-size: 1.25rem;
+    }
+
+    .title-icon {
+        font-size: 1.25rem;
+    }
+
+    .recent-chats-card {
+        padding: 1rem;
+        border-radius: 0.75rem;
+    }
+
+    .search-container {
+        margin-bottom: 1rem;
+        max-width: 90%;
+    }
+
+    .search-input {
+        padding: 0.5rem 0.65rem;
+        font-size: 0.75rem;
+        border-radius: 1.5rem;
+    }
+
+    .clear-search {
+        right: 0.5rem;
+        font-size: 1rem;
+    }
+
+    .chat-item {
+        padding: 0.65rem;
+        margin-bottom: 0.65rem;
+        gap: 0.65rem;
+        border-radius: 0.5rem;
+    }
+
+    .initial-circle {
+        width: 1.75rem;
+        height: 1.75rem;
+        font-size: 0.875rem;
+    }
+
+    .avatar-img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .username {
+        font-size: 0.8125rem;
+        margin-right: 0.35rem;
+    }
+
+    .username.friend-name {
+        font-style: normal;
+        color: #111827;
+    }
+
+    .username.non-friend-name {
+        font-style: italic;
+        color: #6b7280;
+    }
+
+    .chat-alias {
+        font-weight: 600;
+        color: inherit;
+    }
+
+    .chat-actual-username {
+        font-weight: 400;
+        color: #6b7280;
+        font-size: 0.75rem;
+        margin-left: 0.25rem;
+    }
+
+    .userid {
+        font-size: 0.625rem;
+    }
+    
+    .user-info {
+        margin-bottom: 0.1rem;
+    }
+
+    .last-message-preview {
+        font-size: 0.75rem;
+        gap: 0.25rem;
+    }
+
+    .message-text, .no-message {
+        font-size: 0.625rem;
+    }
+
+    .message-time {
+        font-size: 0.625rem;
+    }
+
+    .delete-chat-btn {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .delete-icon {
+        font-size: 0.75rem;
+    }
+
+    .unread-count {
+        font-size: 0.625rem;
+        padding: 0.15rem 0.35rem;
+    }
+
+    .delete-confirm-modal {
+        padding: 1rem;
+        border-radius: 0.75rem;
+    }
+
+    .delete-confirm-modal h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .delete-confirm-modal p {
+        font-size: 0.8125rem;
+        margin-bottom: 1rem;
+    }
+
+    .warning-text {
+        font-size: 0.75rem !important;
+    }
+
+    .modal-actions {
+        gap: 0.5rem;
+    }
+
+    .cancel-button, .delete-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8125rem;
+        border-radius: 0.375rem;
+    }
+
+    .success-toast {
+        padding: 0.6rem 1.25rem;
+        font-size: 0.8125rem;
+        border-radius: 1.5rem;
+    }
+}
