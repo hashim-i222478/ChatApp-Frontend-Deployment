@@ -73,8 +73,8 @@ export const WebSocketProvider = ({ children }) => {
       return;
     }
 
-    console.log('WebSocket: Creating new connection for user:', currentUsername);
-    ws.current = new WebSocket('ws://localhost:8081');
+  console.log('WebSocket: Creating new connection for user:', currentUsername);
+  ws.current = new WebSocket('wss://chatapp-backend-production-abb8.up.railway.app');
 
     ws.current.onopen = () => {
       setIsConnected(true);
