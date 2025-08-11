@@ -46,11 +46,14 @@ const PrivateChat = () => {
 
   const targetUserId = state?.userId || targetUserIdParam;
   const targetUsername = state?.username || 'User';
+  const isSelfChat = targetUserId === myUserId;
   const [profilePic, setProfilePic] = useState('');
   const [displayName, setDisplayName] = useState(targetUsername);
 
   // Use a consistent chatKey for both users
-  const chatKey = `chat_${[myUserId, targetUserId].sort().join('_')}`;
+  const chatKey = isSelfChat
+    ? `notes_${myUserId}`
+    : `chat_${[myUserId, targetUserId].sort().join('_')}`;
 
   // Utility function to format timestamp for display (now just returns the time as-is since it's already local)
   const formatTimeForDisplay = (localTime) => {
@@ -280,7 +283,7 @@ const PrivateChat = () => {
       }
     };
 
-    if (ws.current) {
+  if (ws.current) {
       ws.current.addEventListener('message', handleMessage);
     }
     
@@ -373,7 +376,7 @@ const PrivateChat = () => {
     if (selectedFile) {
       filename = selectedFile.name;
       fileType = selectedFile.type;
-      if (isUserOnline) {
+      if (isSelfChat || isUserOnline) {
         // For online users: send as base64 (for small files)
         fileData = await fileToBase64(selectedFile);
       } else {
@@ -405,16 +408,37 @@ const PrivateChat = () => {
       }
     }
 
-    // Send via WebSocket (handles both online and offline delivery)
-    ws.current.send(JSON.stringify({
-      type: 'private-message',
-      toUserId: targetUserId,
-      message: input,
-      file: fileData, // base64 if online, null if offline
-      fileUrl: fileUrl, // null if online, url if offline
-      filename,
-      fileType
-    }));
+    if (isSelfChat) {
+      // Save as personal note locally and do not send over WebSocket
+      const now = new Date();
+      const localTime = now.toLocaleString();
+      const msgs = JSON.parse(localStorage.getItem(chatKey) || '[]');
+      msgs.push({
+        fromUserId: myUserId,
+        fromUsername: myUsername,
+        username: myUsername,
+        message: input,
+        time: localTime,
+        file: fileData,
+        fileUrl: fileUrl,
+        filename,
+        fileType
+      });
+      localStorage.setItem(chatKey, JSON.stringify(msgs));
+      // Notify listeners to refresh
+      window.dispatchEvent(new CustomEvent('message-received', { detail: { chatKey } }));
+    } else {
+      // Send via WebSocket (handles both online and offline delivery)
+      ws.current.send(JSON.stringify({
+        type: 'private-message',
+        toUserId: targetUserId,
+        message: input,
+        file: fileData, // base64 if online, null if offline
+        fileUrl: fileUrl, // null if online, url if offline
+        filename,
+        fileType
+      }));
+    }
 
     setInput('');
     if (selectedFile && filePreview) URL.revokeObjectURL(filePreview);
@@ -424,7 +448,7 @@ const PrivateChat = () => {
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
-    if (ws.current && isConnected) {
+    if (!isSelfChat && ws.current && isConnected) {
       ws.current.send(JSON.stringify({
         type: 'typing',
         fromUserId: myUserId,
@@ -535,6 +559,10 @@ const PrivateChat = () => {
   const handleDeleteForEveryone = () => {
     console.log('Delete for Everyone - selectedMessages:', selectedMessages);
     console.log('Delete for Everyone - chatKey:', chatKey);
+    if (isSelfChat) {
+      // For personal notes, treat as delete for me only
+      return handleDeleteForMe();
+    }
     ws.current.send(JSON.stringify({
       type: 'delete-message-for-everyone',
       chatKey,
