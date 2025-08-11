@@ -693,7 +693,7 @@ const PrivateChat = () => {
         <DeleteModal
           isOpen={showDeleteModal}
           selectedMessages={selectedMessages}
-          allSelectedByMe={allSelectedByMe}
+          allSelectedByMe={!isSelfChat && allSelectedByMe}
           onClose={() => setShowDeleteModal(false)}
           onDeleteForMe={handleDeleteForMe}
           onDeleteForEveryone={handleDeleteForEveryone}

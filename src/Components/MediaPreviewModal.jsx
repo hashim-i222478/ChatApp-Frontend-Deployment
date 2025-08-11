@@ -34,9 +34,9 @@ const MediaPreviewModal = ({ mediaPreview, onClose }) => {
         <button className="media-modal-close" onClick={onClose}>
           <FaTimes />
         </button>
-        <button className="media-modal-open-new" onClick={handleOpenInNewTab} title="Open in new tab">
+        {/* <button className="media-modal-open-new" onClick={handleOpenInNewTab} title="Open in new tab">
           Open in new tab
-        </button>
+        </button> */}
         
         {mediaPreview.msg.fileType.startsWith('image/') && (
           <img 
