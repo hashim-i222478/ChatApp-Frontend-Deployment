@@ -91,10 +91,47 @@ const SignUp = () => {
   }, [navigate]);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+    // Restrict PIN fields to digits only
+    const processed = (name === 'pin' || name === 'confirmPin')
+      ? value.replace(/\D/g, '')
+      : value;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: processed
     });
+  };
+
+  // Prevent non-digit keys in PIN inputs
+  const handleDigitKeyDown = (e) => {
+    const allowedKeys = ['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
+    if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) return;
+    if (!/^\d$/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
+  // Block non-digit characters before they are inserted (mobile-friendly)
+  const handleDigitBeforeInput = (e) => {
+    if (e.data && !/^\d+$/.test(e.data)) {
+      e.preventDefault();
+    }
+  };
+
+  // Ensure pasted content is digits only
+  const handleDigitPaste = (e) => {
+    const text = (e.clipboardData || window.clipboardData).getData('text');
+    if (!/^\d+$/.test(text)) {
+      e.preventDefault();
+      const digits = text.replace(/\D/g, '');
+      if (digits) {
+        const target = e.target;
+        const start = target.selectionStart || 0;
+        const end = target.selectionEnd || 0;
+        const next = (target.value.slice(0, start) + digits + target.value.slice(end)).slice(0, 4);
+        setFormData(prev => ({ ...prev, [target.name]: next }));
+      }
+    }
   };
 
   const handleProfilePicChange = (e) => {
@@ -144,7 +181,7 @@ const SignUp = () => {
         const formDataPic = new FormData();
         formDataPic.append('profilePic', profilePic);
         formDataPic.append('userId', userId);
-  await fetch('https://chatapp-backend-production-abb8.up.railway.app/api/users/upload-profile-pic', {
+        await fetch('http://localhost:8080/api/users/upload-profile-pic', {
           method: 'POST',
           body: formDataPic
         });
@@ -229,6 +266,9 @@ const SignUp = () => {
                 name="pin"
                 value={formData.pin}
                 onChange={handleChange}
+                onKeyDown={handleDigitKeyDown}
+                onBeforeInput={handleDigitBeforeInput}
+                onPaste={handleDigitPaste}
                 required
                 pattern="\d{4}"
                 placeholder="Create a 4-digit PIN"
@@ -244,6 +284,9 @@ const SignUp = () => {
                 name="confirmPin"
                 value={formData.confirmPin}
                 onChange={handleChange}
+                onKeyDown={handleDigitKeyDown}
+                onBeforeInput={handleDigitBeforeInput}
+                onPaste={handleDigitPaste}
                 required
                 pattern="\d{4}"
                 placeholder="Confirm your 4-digit PIN"
