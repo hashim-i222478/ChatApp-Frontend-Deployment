@@ -24,24 +24,33 @@ const ChatHeader = ({
         <button className="back-button2" onClick={onBack} title="Go back">
           <FaArrowLeft />
         </button>
-        <div className="user-avatar-wrapper">
-          <div className="user-avatar">
-            {profilePic ? (
-              <img 
-                src={profilePic.startsWith('/uploads/') 
-                  ? `https://chatapp-backend-production-abb8.up.railway.app${profilePic}` 
-                  : profilePic} 
-                alt={displayName} 
-                className="avatar-img" 
-                loading="lazy"
-              />
-            ) : (
-              <div className="initial-circle">{displayName[0] ? displayName[0].toUpperCase() : '?'}</div>
-            )}
-            {onlineUsers.some(u => u.userId === targetUserId) && (
-              <span className="online-status-indicator"></span>
-            )}
-          </div>
+        <div className="friend-avatar-container">
+          {profilePic ? (
+            <img 
+              src={profilePic.startsWith('/uploads/') 
+                ? `https://chatapp-backend-production-abb8.up.railway.app${profilePic}` 
+                : profilePic} 
+              alt={displayName} 
+              className="friend-avatar" 
+              loading="lazy"
+              onError={(e) => {
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'flex';
+              }}
+            />
+          ) : null}
+          {!profilePic ? (
+            <div className="friend-avatar-fallback">
+              {displayName.charAt(0).toUpperCase()}
+            </div>
+          ) : (
+            <div className="friend-avatar-fallback" style={{ display: 'none' }}>
+              {displayName.charAt(0).toUpperCase()}
+            </div>
+          )}
+          {onlineUsers.some(u => u.userId === targetUserId) && (
+            <div className="online-status-indicator"></div>
+          )}
         </div>
         <div className="user-details">
           <h1 className={`chat-title ${isFriend ? 'friend-name' : 'non-friend-name'}`}>
