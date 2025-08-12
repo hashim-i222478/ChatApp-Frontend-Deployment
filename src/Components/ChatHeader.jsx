@@ -11,6 +11,7 @@ const ChatHeader = ({
   selectedMessages, 
   selectionMode, 
   messages,
+  isSelfChat = false,
   onBack, 
   onAddFriend, 
   onDeleteSelected, 
@@ -48,7 +49,7 @@ const ChatHeader = ({
               {displayName.charAt(0).toUpperCase()}
             </div>
           )}
-          {onlineUsers.some(u => u.userId === targetUserId) && (
+          {onlineUsers.some(u => u.userId === targetUserId) && !isSelfChat && (
             <div className="online-status-indicator"></div>
           )}
         </div>
@@ -60,13 +61,13 @@ const ChatHeader = ({
             <div className="typing-status">{someoneTyping} is typing...</div>
           ) : (
             <div className="user-status">
-              {onlineUsers.some(u => u.userId === targetUserId) ? 'Online' : 'Offline'}
+              {isSelfChat ? 'Personal Notes' : (onlineUsers.some(u => u.userId === targetUserId) ? 'Online' : 'Offline')}
             </div>
           )}
         </div>
       </div>
       <div className="chat-header-actions">
-        {!isFriend && (
+        {!isFriend && !isSelfChat && (
           <button 
             className="add-friend-btn" 
             onClick={onAddFriend}

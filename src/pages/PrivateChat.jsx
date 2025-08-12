@@ -676,15 +676,16 @@ const PrivateChat = () => {
       <Header />
       <div className="private-chat-container">
         <ChatHeader
-          displayName={displayName}
+          displayName={isSelfChat ? "Notes to Self" : displayName}
           profilePic={profilePic}
           targetUserId={targetUserId}
-          onlineUsers={onlineUsers}
+          onlineUsers={isSelfChat ? [] : onlineUsers}
           someoneTyping={someoneTyping}
           isFriend={isFriend}
           selectedMessages={selectedMessages}
           selectionMode={selectionMode}
           messages={messages}
+          isSelfChat={isSelfChat}
           onBack={() => navigate(-1)}
           onAddFriend={handleAddFriend}
           onDeleteSelected={() => setShowDeleteModal(true)}
